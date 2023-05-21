@@ -1,0 +1,14 @@
+**/*.sam
+**/*.gz
+**/*.fastq
+**/*.gtf
+**/*.bam
+**/*.bai
+tmp/**
+**/genome.fa
+*.ht2
+.DS_Store
+**/swissprot
+**/swissprot*
+**/dm6/**
+tmp
