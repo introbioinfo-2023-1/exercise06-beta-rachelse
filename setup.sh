@@ -1,11 +1,11 @@
 #!/bin/bash
 # File: setup.sh
-# Author: Hyunbin Kim (khb7840@gmail.com)
+# Author: Seongeun Kim (eunbelivable@snu.ac.kr)
 
 # Variables
-DOCKER_ID="khb7840"
+DOCKER_ID="seamustard52"
 PREFIX="introbioinfo"
-EXERCISE_NAME="exercise04"
+EXERCISE_NAME="exercise06"
 EXERCISE_DIR=$PWD
 
 # Run docker
