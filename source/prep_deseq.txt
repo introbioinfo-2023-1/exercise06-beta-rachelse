@@ -1,0 +1,4 @@
+batch1  /home/exercise06/exercise06/data/ballgown/batch1_requant.gtf
+batch2  /home/exercise06/exercise06/data/ballgown/batch2_requant.gtf
+chem1   /home/exercise06/exercise06/data/ballgown/chem1_requant.gtf
+chem2   /home/exercise06/exercise06/data/ballgown/chem2_requant.gtf

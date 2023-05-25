@@ -1,2 +1,0 @@
-SRR453567	/home/exercise06/exercise06/data/ballgown/SRR453567_requant.gtf
-SRR453570	/home/exercise06/exercise06/data/ballgown/SRR453570_requant.gtf
