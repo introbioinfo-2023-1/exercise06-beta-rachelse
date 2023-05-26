@@ -25,7 +25,7 @@ args = parser.parse_args()
 
 # 2. Load data
 # 2.1. Load count matrix and sample info into DataFrame
-sample_info = pd.read_csv('data/phenodata.csv', index_col=0)
+sample_info = pd.read_csv('source/phenodata.csv', index_col=0)
 counts = pd.read_csv(args.input, index_col=0).T
 
 # 2.2. Filter lowly expressed genes

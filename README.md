@@ -3,7 +3,6 @@
 | Seoul National University | Introduction to Bioinformatics | RNA-seq analysis | Spring 2023 | Asst. Prof. M. Steinegger (martin.steinegger@snu.ac.kr) | Luna Jang (jse9512@snu.ac.kr) <br /> Rachel Kim (eunbelivable@snu.ac.kr) |
 
 - For submission, please follow the instructions in [submission](#submission).
-- For files to be submitted, please refer to [files](#result-files).
 
 # Exercise06: RNA-seq analysis pipeline
 
@@ -43,7 +42,7 @@ The pyDESeq2 package is python version of R package DEseq2. It is designed for n
 Extract the `tar.gz` file and remove the downloaded `sc3.tar.gz`. (No result file)
    - Link: https://cloud.biohpc.swmed.edu/index.php/s/Gsq4goLW4TDAz4E/download
 
-1. We will use paired-end reads from four *S.cerevisiae* RNA-seq runs; batch(SRR453566, SRR453567) and chem(SRR453569, SRR453570).
+2. We will use paired-end reads from four *S.cerevisiae* RNA-seq runs; batch(SRR453566, SRR453567) and chem(SRR453569, SRR453570).
    Two samples are batch condition (glucose-excess) and the other are chem condition (glucose-limited). Download these FASTQ files in `./data` directory. 
    Name each file as `batch1_1.fastq`, `batch1_2.fastq`, `batch2_1.fastq`, `batch2_2.fastq`, `chem1_1.fastq`, `chem1_2.fastq`, `chem2_1.fastq`, and `chem2_2.fastq`. (No result file)
    - batch1_1: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch1_chrI_1.fastq
@@ -61,7 +60,7 @@ Extract the `tar.gz` file and remove the downloaded `sc3.tar.gz`. (No result fil
      - `./data/chem1_1.fastq`, `./data/chem1_2.fastq`
      - `./data/chem2_1.fastq`, `./data/chem2_2.fastq`
 
-2. Map the paired-end reads of four samples to **sc3** genome with **HISAT2**.
+3. Map the paired-end reads of four samples to **sc3** genome with **HISAT2**.
    Save the alignment result as `batch1.sam`, `batch2.sam`, `chem1.sam`, and `chem2.sam` in **data** directory.
    (No result file)
    - Input
@@ -102,7 +101,7 @@ Extract the `tar.gz` file and remove the downloaded `sc3.tar.gz`. (No result fil
 
    - Output: `./data/s_cerevisiae.genes.gtf`
 
-2. Assemble transcripts for `./data/batch1.sorted.bam`, `./data/batch2.sorted.bam`, `./data/chem1.sorted.bam`, and `./data/chem2.sorted.bam` with **StringTie**. Save the output files(batch1.gtf, batch2.gtf, chem1.gtf, chem2.gtf) to the `result` directory. (Result files: **StringTie output**)
+2. Assemble transcripts for `./data/batch1.sorted.bam`, `./data/batch2.sorted.bam`, `./data/chem1.sorted.bam`, and `./data/chem2.sorted.bam` with **StringTie**. Save the output files(batch1.gtf, batch2.gtf, chem1.gtf, chem2.gtf) to the `result` directory. (Result files: **batch1.gtf**, **batch2.gtf**, **chem1.gtf**, **chem2.gtf**)
    - Input
       - BAM files
          - `./data/batch1.sorted.bam`
@@ -138,7 +137,7 @@ To requantify transcript expression, we will merge the reconstructed transcripto
    | ------------- | ------------- | -------------- | ---------- | ------ | ------ |
    | YAL012W       | CYS3          | *S.cerevisiae* | chrI       | 130799 | 131983 |
 
-   Find the FPKM and TPM of *CYS3* gene in four gtf files and Save in the `./result/CYS3.csv` as following.
+   Find the FPKM and TPM of *CYS3* gene in four gtf files and Save in the `./result/CYS3.csv` as following. (Result file: **CYS3.csv**)
    ``` CYS3.csv
    GeneName,SampleID,FPKM,TPM
    CYS3,batch1,0.0,0.0
@@ -146,26 +145,37 @@ To requantify transcript expression, we will merge the reconstructed transcripto
    CYS3,chem1,0.0,0.0
    CYS3,chem2,0.0,0.0
    ```
-   (Result file: **CYS3.csv**)
+   > You should only consider **transcript** features.
 
    - Input: `./result/batch1_requant.gtf`, `./result/batch2_requant.gtf`, `./result/chem1_requant.gtf`, `./result/chem2_requant.gtf`
-   - Output: `./result/CYS3.csv`
+   - Output: `./result/cys3.csv`
 
-##TODO check here!
-4. Get top 5 highly expressed genes (based on TPM) from `./result/SRR453567.tsv` and `./result/SRR453570.tsv`.
-   Save the lines of top 5 genes to `./result/SRR453567.top5.tsv` and `./result/SRR453570.top5.tsv`.
+4. Get top 5 highly expressed **transcripts** (based on TPM) from requantified gtf files.
+   Save gene_id, gene_name and TPM of top 5 transcripts to `./result/batch1.top5.tsv` and `./result/batch2.top5.tsv`, `./result/chem1.top5.tsv`, `./result/chem2.top5.tsv`. (Result files: **batch1.top5.tsv**, **batch2.top5.tsv**, **chem1.top5.tsv**, **chem2.top5.tsv**)
 
-   (Result files: **SRR453567.top5.tsv**, **SRR453570.top5.tsv**)
+   > - Only consider genes with gene names (Ignore transcripts without gene names)
+   > - Result should be sorted by TPM in descending order.
+   ```e.g.
+   MSTRG.1  ABCD  12345.5000
+   MSTRG.2  BCDE  12344.4000
+   MSTRG.3  CDEF  12343.3000
+   MSTRG.4  DEFG  12342.2000
+   MSTRG.5  EFGH  12341.1000
+   ```
+   
+   - Input: `./data/ballgown/batch1_requant.gtf`, `./data/ballgown/batch2_requant.gtf`, `./data/ballgown/chem1_requant.gtf`, `./data/ballgown/chem2_requant.gtf`
+   - Output: `./result/batch1.top5.tsv`, `./result/batch2.top5.tsv`, `./result/chem1.top5.tsv`, `./result/chem2.top5.tsv`
 
-   > - Only consider genes with gene names (Ignore transcripts of which gene names are "-")
 
 ## command05.sh
 In this stage, you will learn how to analyze Differential Expression (DE) with pyDESeq2. After the analysis, you will visualize the expression result with volcano plot. Since the analysis and visualization require knowledge of R or Python, we will provide the sourcecodes(run_pydeseq.py, make_volcano.py). Instead of writing the code, you should provide arguments to run the sourcecodes.
 Using the data of previous step, we will compare the gene expressions between two conditions(batch and chem).
+
 :bangbang: Note that due to small replications, the result of DE analysis may not be reliable and the plot looks poor. However, you don't have to care about this since the purpose of this step is to learn briefly how to analyze DE with pyDESeq2 and visualize the result.
+:bangbang: This procedure is abbreviated excluding run DESeq2 and plot by yourself. If you are interested in the detailed procedure, please read over the sourcecodes in `./source` directory and result files.
 
 1. To prepare differential expression analysis, you should convert stringtie output into a format that can be used by DESeq2. Fortunately, stringtie provides code to generate input file of DESeq2. Use `prepDE.py` to convert the stringtie output into a format that can be used by DESeq2. Save the result files into `./result` directory. (Result files: **gene_count_matrix.csv**, **transcript_count_matrix.csv**)
-   - Input: `./source/prep_deseq.txt`, `./data/batch1_requant.gtf`, `./data/batch2_requant.gtf`, `./data/chem1_requant.gtf`, `./data/chem2_requant.gtf`
+   - Input: `./source/prep_deseq.txt`
    - Output: `./result/gene_count_matrix.csv`, `./result/transcript_count_matrix.csv`
   
    > **copy and paste** following command to command file
@@ -174,10 +184,37 @@ Using the data of previous step, we will compare the gene expressions between tw
       ```
    > move output files to result directory or use `-g` and `-t` options of prepDE.py to specify output directory
 
-2. ##TODO:Write description for run_pydeseq.py
+2. With the output file of previous step, run pyDEseq2 using code `./source/run_pydeseq.py`. To run the tool properly, you should specify options. Save the result file as **deseq2_results.csv**. (Result file: **deseq2_results.csv**)
+   - Input: `./result/gene_count_matrix.csv`
+   - Output: `./result/deseq2_results.csv`
+   - command usage:
+      ```sh
+      python source/run_pydeseq.py -i <inputfile> -o <output_file> -f <factor>
+      ```
+      - `-i`, `-o`, and `-f` are required.
+      - `-f`: You should specify **factor to compare**. You can find appropriate factor among column names of `source/phenodata.csv` file. This is case sensitive.
+      - `-s`: is optional. You can enhance False Positve Rate and visualization with this option.
+      - `-h`: For details of options and usage, use `-h` option.
+  
+3. From the result of pyDEseq2 (`./result/deseq2_results.csv`), save the **number** of overexpressed genes.
+   Save the result file as **overexpressed_genes.txt**. (Result file: **overexpressed_genes.txt**)
+  > - No threshold for overexpression. Just extract all the gene ids of overexpressed genes.
 
+4. Using the result file of pyDEseq2, make volcano plot. Save the plot as **volcano.png**. (Result file: **volcano.png**)
+   - Input: `./result/deseq2_results.csv`
+   - Output: `./result/volcano.png`
+   - command usage:
+      ```sh
+      python source/make_volcano.py -i <inputfile> -o <output_file> -x <x_axis> -y <y_axis>
+      ```
+      - `-i`, `-o`, `-x`, and `-y` are mandatory.
+      - `-x`: You should specify **x-axis** of plot. You can find appropriate factor among column names of the input file. This is case sensitive and please use exactly same name as input file.
+      - `-y`: You should specify **y-axis** of plot. You can find appropriate factor among column names of the input file. This is case sensitive and please use exactly same name as input file.
+      - `-c`: is optional. You can color significant genes(based on adjusted p-value) in red with this option.
+      - `-t`: is optional. You can modify threshold to color significant genes based on adjusted p-value. Default is 0.05.
+      - `-h`: For details of options and usage, use `-h` option.
 
-3. ##TODO:Write description for plot.py
+   > Refer to the plot on lecture slide. (19 RNA-seq differential gene expression - page 27)
 
 
 ---
@@ -202,15 +239,3 @@ To submit your result, follow these steps:
    ```sh
    git push origin master
    ```
-
-## Result files ##TODO change here
-Followings are the result files you should submit:
-
-- StringTie output (command05.sh - Step 2.)
-   - **SRR453567.gtf**, **SRR453570.gtf**, **SRR453567.tsv**, **SRR453567.tsv**
-- FPKM and TPM values of *CYS3* gene: **CYS3.csv** (command05.sh - Step 3.)
-- Histograms for *CYS3* gene region (command05.sh - Step 4.)
-   - **SRR453567.CYS3.coverage**, **SRR453570.CYS3.coverage**
-- Sample ID with RNAi: **sample_with_RNAi.txt** (command05.sh - Step 4.)
-- Top 5 highly expressed genes: **SRR453567.top5.tsv**, **SRR453570.top5.tsv** (command05.sh - Step 5.)
-- Top and bottom 25 DE genes: **CYS3.log2FC.top25.csv** and **CYS3.log2FC.bottom25.csv** (command06.sh)

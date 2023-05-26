@@ -7,8 +7,10 @@ wget -O ./data/saccharomyces_cerevisiae.genes.gtf.gz https://ftp.ensembl.org/pub
 gunzip ./data/saccharomyces_cerevisiae.genes.gtf.gz
 awk '{if ($0~/^#/) {print $0} else {print "chr"$0}}' data/saccharomyces_cerevisiae.genes.gtf > data/s_cerevisiae.genes.gtf 
 rm data/saccharomyces_cerevisiae.genes.gtf
-# 2. Assemble and quantify transcripts for ./data/SRR453567.sorted.bam and ./data/SRR453570.sorted.bam with StringTie. 
-#     Save the output files to the result directory. (Result files: SRR453567.tsv, SRR453567.gtf, SRR453570.tsv, SRR453570.gtf)
+
+# 2. Assemble transcripts for ./data/batch1.sorted.bam, ./data/batch2.sorted.bam, ./data/chem1.sorted.bam, and ./data/chem2.sorted.bam with StringTie. 
+#     Save the output files(batch1.gtf, batch2.gtf, chem1.gtf, chem2.gtf) to the result directory. 
+#     (Result files: batch1.gtf, batch2.gtf, chem1.gtf, chem2.gtf)
 
 stringtie -p 8 -o ./result/batch2.gtf ./data/batch2.sorted.bam -G ./data/s_cerevisiae.genes.gtf 
 stringtie -p 8 -o ./result/chem2.gtf ./data/chem2.sorted.bam -G ./data/s_cerevisiae.genes.gtf

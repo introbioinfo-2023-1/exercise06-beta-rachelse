@@ -7,14 +7,17 @@ wget -O ~/exercise06/db/sacCer3.tar.gz  https://cloud.biohpc.swmed.edu/index.php
 tar -zxvf ./db/sacCer3.tar.gz -C ./db
 rm ./db/sacCer3.tar.gz
 
-# 2. We will use reads from two *S.cerevisiae* RNA-seq runs; SRR453567(batch) and SRR453570(chem).
-#    One sample is batch condition (glucose-excess) and the other is chem condition (glucose-limited).
-#    Download these FASTQ files in ./data directory. 
-#    Name each file as SRR453567_1.fastq, SRR453567_2.fastq, SRR453570_1.fastq and SRR453570_2.fastq. (No result file)
-#    - https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch2_chrI_1.fastq 
-#    - https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch2_chrI_2.fastq 
-#    - https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem2_chrI_1.fastq 
-#    - https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem2_chrI_2.fastq 
+# 2. We will use paired-end reads from four S.cerevisiae RNA-seq runs; batch(SRR453566, SRR453567) and chem(SRR453569, SRR453570).
+#    Two samples are batch condition (glucose-excess) and the other are chem condition (glucose-limited). Download these FASTQ files in ./data directory. 
+#    Name each file as batch1_1.fastq, batch1_2.fastq, batch2_1.fastq, batch2_2.fastq, chem1_1.fastq, chem1_2.fastq, chem2_1.fastq, and chem2_2.fastq. (No result file)
+#    - batch1_1: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch1_chrI_1.fastq
+#    - batch1_2: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch1_chrI_2.fastq 
+#    - batch2_1: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch2_chrI_1.fastq 
+#    - batch2_2: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem1_chrI_1.fastq 
+#    - chem1_1: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem1_chrI_2.fastq 
+#    - chem1_2: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch2_chrI_2.fastq 
+#    - chem2_1: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem2_chrI_1.fastq 
+#    - chem2_2: https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem2_chrI_2.fastq 
 wget -O data/batch2_1.fastq https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch2_chrI_1.fastq
 wget -O data/batch2_2.fastq https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/batch2_chrI_2.fastq
 wget -O data/chem2_1.fastq https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem2_chrI_1.fastq
@@ -25,8 +28,8 @@ wget -O data/batch1_2.fastq https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895
 wget -O data/chem1_1.fastq https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem1_chrI_1.fastq 
 wget -O data/chem1_2.fastq https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/RNAseqDGE_ADVNCD/chem1_chrI_2.fastq 
 
-# 3. Map the paired-end reads of two samples to sc3 genome with HISAT2.
-#    Save the alignment result at ./data/SRR453567.sam and ./data/SRR453570.sam
+# 3. Map the paired-end reads of four samples to sc3 genome with HISAT2.
+#    Save the alignment result as batch1.sam, batch2.sam, chem1.sam, and chem2.sam in data directory. (No result file)
 
 hisat2 -x ./db/sc3/genome -1 ./data/batch2_1.fastq -2 ./data/batch2_2.fastq -S ./data/batch2.sam
 hisat2 -x ./db/sc3/genome -1 ./data/chem2_1.fastq -2 ./data/chem2_2.fastq -S ./data/chem2.sam

@@ -2,7 +2,6 @@
 *.gz
 *.gtf
 *.fastq
-*.ht2
 *.bam
 *.bai
 *.sam
@@ -10,14 +9,8 @@
 sc3/*
 genome*
 
-db/gcp/gcp*
-*.tracking
-*.stats
-*.loci
-*.refmap
-*.tmap
-
 data/ballgown/*
+*.ctab
 
 
 
